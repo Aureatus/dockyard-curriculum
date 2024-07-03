@@ -87,8 +87,7 @@ Here's a table of binary numbers and their corresponding integer values.
 Enum.map(1..300, fn integer ->
   binary = Integer.digits(integer, 2) |> Enum.join() |> String.to_integer()
   %{base10: integer, base2: binary}
-end)
-|> Kino.DataTable.new()
+end) |> Kino.DataTable.new()
 ```
 
 Each byte stores an integer between `1` and `255` in binary. These integers are used to represent characters. For example, the number `65` represents the `"A"` character. This number is called the **codepoint**. We can find the codepoint of any character using the `?` symbol.
@@ -125,8 +124,7 @@ lowercase letters have different code points.
 |> Enum.map(fn char ->
   <<code_point::utf8>> = char
   %{character: char, code_point: code_point}
-end)
-|> Kino.DataTable.new()
+end) |> Kino.DataTable.new()
 ```
 
 To represent strings as binaries, each byte in the binary represents a code point.
@@ -230,13 +228,13 @@ String.graphemes("é")
 Use [String.graphemes/1](https://hexdocs.pm/elixir/String.html#graphemes/1) to convert the [woman fire fighter](https://emojipedia.org/woman-firefighter/) emoji 👩‍🚒 to a list of graphemes.
 
 ```elixir
-
+String.graphemes("👩‍🚒")
 ```
 
 Use [String.codepoints/1](https://hexdocs.pm/elixir/String.html#codepoints/1) to convert the emoji 👩‍🚒 into a list of codepoints. You'll notice it's actually a combination of the 👩 and 🚒 emojis.
 
 ```elixir
-
+String.codepoints("👩‍🚒")
 ```
 
 ## Hexadecimal
@@ -328,7 +326,7 @@ Use hexadecimal `0x` syntax to represent the number `15`.
 </details>
 
 ```elixir
-
+0xf
 ```
 
 ## Bitstrings
@@ -428,7 +426,9 @@ Convert the alphabet `"abcdefghijklmnopqrstuvwxyz"` to a charlist, then inspect 
 </details>
 
 ```elixir
-
+"abcdefghijklmnopqrstuvwxyz"
+|> String.to_charlist()
+|> IO.inspect(charlists: :as_lists)
 ```
 
 ## Further Reading
