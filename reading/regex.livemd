@@ -198,7 +198,7 @@ We can also match on ranges of characters or use special conditions.
 Use `[1-9]` to match a range of digits or letters.
 
 ```elixir
-Regex.scan(~r/[1-4]/, "1234567")
+Regex.scan(~r/[1-9]/, "1234567")
 ```
 
 ```elixir
@@ -361,7 +361,10 @@ end)
 </details>
 
 ```elixir
-
+phone = "999-999-9999"
+Regex.replace(~r/(\d{3}-)\d{3}(-\d{4})/, phone, fn _match, group1 -> 
+  group1 <> "XXX-XXXX"
+  end)
 ```
 
 ## Options
@@ -463,7 +466,10 @@ end)
 </details>
 
 ```elixir
-
+Regex.replace(~r/#(\d{3})(\d{3})(\d{4})/, "#9999999999", 
+  fn match, group1, group2, group3 ->
+    "#{group1}-#{group2}-#{group3}"
+    end)
 ```
 
 ## Further Reading
