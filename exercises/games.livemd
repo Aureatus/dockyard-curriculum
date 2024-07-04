@@ -61,6 +61,7 @@ Then run the following in your command line from the `curriculum` folder to comm
 $ git add .
 $ git commit -m "finish Games Project exercise"
 $ git push
+(finished)
 ```
 
 We're proud to offer our open-source curriculum free of charge for anyone to learn from at their own pace.
