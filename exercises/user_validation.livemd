@@ -63,19 +63,28 @@ defmodule User do
     [{:error, :not_a_user}, {:error, :not_a_user}, {:error, :not_a_user}]
   """
   defstruct [:name]
-
+  
+# with {:not_binary, true} <- {:not_binary, is_binary(value)},
+#      {:too_long, true} <- {:too_long, String.length(value) <= 10},
+#      {:too_short, true} <- {:too_short, 2 <= String.length(value)} do
+#   IO.puts("success")
+# else
+#   {:not_binary, _} -> IO.puts("value is not binary")
+#   {:too_long, _} -> IO.puts("value is too long")
+#   {:too_short, _} -> IO.puts("value is too short")
+# end
   def validate_users(users) do
     Enum.map(users, fn user ->
-      with %User{name: name} <- user, true <- {:missing_name, is_binary(name)} do
+      with %User{name: name} <- user, 
+        {:missing_name, true} <- {:missing_name, is_binary(name)}
+        do
         {:ok, user}
       else
-        false ->
+        {:missing_name, _} ->
           {:error, :missing_name}
 
         _ ->
-          {:e}
-          IO.inspect(thing)
-          :error
+          {:error, :not_a_user}
       end
     end)
   end
