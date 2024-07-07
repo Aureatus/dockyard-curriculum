@@ -157,7 +157,7 @@ DO NOT DELETE IMPORTANT FILES ON YOUR SYSTEM WHEN USING THE FILE MODULE
 </div>
 
 ```elixir
-
+File.lstat!("/")
 ```
 
 ## Path Module Functions
