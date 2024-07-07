@@ -101,6 +101,12 @@ defmodule Document do
       3
   """
   def word_count(file_name) do
+    {:ok, data} = File.read(file_name)
+    
+    data
+    |> String.replace("\n", " ") 
+    |> String.split(" ") 
+    |> Enum.count()
   end
 
   @doc ~S"""
@@ -113,6 +119,12 @@ defmodule Document do
       3
   """
   def line_count(file_name) do
+    {:ok, data} = File.read(file_name)
+
+    data |>
+    String.split("\n")
+    |> Enum.count()
+    |> (&(&1 - 1)).()
   end
 
   @doc ~S"""
@@ -126,6 +138,14 @@ defmodule Document do
       "1. one\n2. two\n3. three"
   """
   def add_line_numbers(file_name) do
+    {:ok, data} = File.read(file_name)
+
+    with_line_numbers = data 
+    |> String.split("\n")
+    |> Stream.with_index()
+    |> Stream.map(fn {value, index} -> "#{index + 1}. " <> value end)
+    |> Enum.join("\n")
+    File.write(file_name, with_line_numbers)
   end
 end
 ```
