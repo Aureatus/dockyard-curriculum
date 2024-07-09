@@ -94,6 +94,17 @@ defmodule FileSearch do
   ["file1.txt", "file2.txt", "file3.txt", "file4.txt"]
   """
   def all(folder) do
+
+    {:ok, files} = File.ls(folder)
+      Enum.map(files, fn file -> 
+       path = Path.join(folder, file)
+       if File.dir?(path) do 
+         all(path) 
+       else file 
+       end 
+      end)
+    |> List.flatten()
+   
   end
 
   @doc """
@@ -124,8 +135,12 @@ defmodule FileSearch do
   }
   """
   def by_extension(folder) do
+    all(folder)
+    |> Enum.group_by(fn x -> Path.extname(x) end)
   end
 end
+
+FileSearch.by_extension("tutorials")
 ```
 
 ### Configure Project As A Script
