@@ -139,6 +139,20 @@ defmodule Mailbox do
       "Hello!"
   """
   def loop(state \\ []) do
+    receive do
+      {:send, message} -> loop([message | state])
+      {:read, pid} -> 
+        if Enum.count(state) == 0 do
+          Process.send(pid, :empty, [])
+          loop(state)
+        else
+          [most_recent_message | rest] = state
+          Process.send(pid, most_recent_message, [])
+          loop(rest)
+        end
+        
+
+    end
   end
 end
 ```
