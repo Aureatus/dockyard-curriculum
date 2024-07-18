@@ -76,6 +76,11 @@ defmodule WordCount do
   Documentation for `WordCount`.
   """
 
+  def count(document) do
+    String.split(document, " ") 
+    |> Enum.count()
+  end
+  
   @doc """
   Concurrently count the number of words in each document.
 
@@ -85,6 +90,8 @@ defmodule WordCount do
       [2, 2]
   """
   def individual_count(documents) do
+    Enum.map(documents, fn document -> Task.async(fn -> count(document) end) end)
+    |> Task.await_many()
   end
 
   @doc """
@@ -95,6 +102,8 @@ defmodule WordCount do
   4
   """
   def total_count(documents) do
+    individual_count(documents)
+    |> Enum.sum()
   end
 end
 ```
