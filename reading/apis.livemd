@@ -51,7 +51,7 @@ Generally, API refers to web APIs, which are programs that run on the internet. 
 
 We won't go deep into networking or how the internet works, as that is beyond the scope of this course. However, Crash Course Computer Science provides an excellent overview.
 
-<!-- livebook:{"attrs":{"source":"YouTube.new(\"https://www.youtube.com/watch?v=AEaKrq3SpW8\")","title":"The Internet: Crash Course Computer Science"},"chunks":null,"kind":"Elixir.HiddenCell","livebook_object":"smart_cell"} -->
+<!-- livebook:{"attrs":"eyJzb3VyY2UiOiJZb3VUdWJlLm5ldyhcImh0dHBzOi8vd3d3LnlvdXR1YmUuY29tL3dhdGNoP3Y9QUVhS3JxM1NwVzhcIikiLCJ0aXRsZSI6IlRoZSBJbnRlcm5ldDogQ3Jhc2ggQ291cnNlIENvbXB1dGVyIFNjaWVuY2UifQ","chunks":null,"kind":"Elixir.HiddenCell","livebook_object":"smart_cell"} -->
 
 ```elixir
 YouTube.new("https://www.youtube.com/watch?v=AEaKrq3SpW8")
@@ -472,7 +472,26 @@ IO.puts(message)
 </details>
 
 ```elixir
+method = :post
+url = "https://api.openai.com/v1/chat/completions"
+headers = [
+  {"Content-Type", "application/json"},
+  {"Authorization", "Bearer EXAMPLE_OPENAI_KEY"}
+]
 
+body = %{
+  model: "gpt-3.5-turbo",
+  messages: [%{
+    role: "user",
+    content: "Hello!"
+  }]
+}
+|> Jason.encode!()
+
+request = Finch.build(method, url, headers, body)
+|> Finch.request!(MyApp.Finch)
+
+Jason.decode!(request.body)
 ```
 
 ## Commit Your Progress
